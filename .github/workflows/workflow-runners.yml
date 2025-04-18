@@ -1,6 +1,18 @@
+# This workflow demonstrates the use of different runners in GitHub Actions.
+# It includes jobs that run on Ubuntu, Windows, and macOS runners.
+# Each job prints the operating system it is running on.
+# The workflow is triggered manually using the 'workflow_dispatch' event.
+# The jobs are named 'ubuntu-echo', 'windows-echo', and 'macos-echo' respectively.
+# The 'runs-on' key specifies the type of runner to use for each job.
+# The 'steps' key contains the commands to be executed in each job.
+# The 'shell' key specifies the shell to be used for executing the commands.
+# The 'run' key contains the actual commands to be executed.
+# The 'echo' command is used to print messages to the console.
+# The 'RUNNER_OS' environment variable is used to identify the operating system of the runner.
+
 name: Workflow Runners
 
-on: push
+on: workflow_dispatch
 
 jobs:
     ubuntu-echo:
