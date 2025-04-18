@@ -1,3 +1,9 @@
+# This workflow demonstrates how to use the 'github.event_name' context
+# to get the name of the event that triggered the workflow.
+# It runs on pull_request and workflow_dispatch events.
+# The workflow will echo the event name to the console.
+# The workflow is triggered by pull_request and workflow_dispatch events.
+
 name: Workflow Events
 
 on:
