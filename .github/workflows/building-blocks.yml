@@ -1,3 +1,9 @@
+# This workflow is triggered manually and contains two jobs: echo-hello and echo-goodbye.
+# The echo-hello job runs first and prints "Hello, World!" to the console.
+# The echo-goodbye job runs second and contains a step that always succeeds,
+# followed by a step that prints "Goodbye, World!" to the console.
+
+
 name: Building Blocks
 
 on: workflow_dispatch
