@@ -1,6 +1,14 @@
 name: Contexts
+run-name: Display Contexts and Variables | Debug - ${{ inputs.debug }}
 
-on: push
+on: 
+    push:
+    workflow_dispatch:
+        inputs:
+            debug:
+                type: boolean
+                default: false
+                description: Enable debug mode
 
 jobs:
     echo-data:
