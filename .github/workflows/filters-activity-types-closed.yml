@@ -1,0 +1,14 @@
+name: Event Filters and Activity Types
+
+on:
+    pull_request:
+        types:
+            - closed
+        branches:
+            - main
+
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "This job runs on pull_request events with type 'closed' for the main branch."
