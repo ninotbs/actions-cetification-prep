@@ -1,0 +1,15 @@
+name: Event Filters and Activity Types
+
+on:
+    pull_request:
+        types:
+            - opened
+            - synchronize
+        branches:
+            - main
+
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "This job runs on pull_request events with types 'opened' and 'synchronized' for the main branch."
