@@ -1,14 +1,13 @@
 # This workflow demonstrates the use of event filters and activity types in GitHub Actions.
 # It triggers on pull_request events with specific activity types and branches.
-# The workflow includes a job that runs on the specified events and prints a message.
+# It includes a job that runs on the specified events and prints a message.
 
 name: Event Filters and Activity Types
 
 on:
     pull_request:
         types:
-            - opened
-            - synchronize
+            - closed
         branches:
             - main
 
@@ -16,4 +15,4 @@ jobs:
     echo:
         runs-on: ubuntu-latest
         steps:
-            - run: echo "This job runs on pull_request events with types 'opened' and 'synchronized' for the main branch."
+            - run: echo "This job runs on pull_request events with type 'closed' for the main branch."
