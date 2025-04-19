@@ -1,8 +1,17 @@
+# This workflow demonstrates how to use contexts and variables in GitHub Actions.
+# It retrieves and displays various context values and environment variables.
+# It also shows how to override environment variables at different levels.
+# The workflow is triggered manually using the 'workflow_dispatch' event.
+# The workflow includes two jobs: 'echo-data' and 'echo-data-2'.
+# The 'echo-data' job retrieves and displays context values and environment variables.
+# The 'echo-data-2' job retrieves and displays environment variables.
+# The workflow includes a debug input parameter that can be set to true or false.
+# The debug input parameter is used to control the debug mode of the workflow.
+
 name: Contexts
 run-name: Display Contexts and Variables | Debug - ${{ inputs.debug }}
 
 on: 
-    push:
     workflow_dispatch:
         inputs:
             debug:
