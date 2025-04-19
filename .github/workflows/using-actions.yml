@@ -1,5 +1,7 @@
 # This file is part of the GitHub Actions workflow for a Node.js application.
-
+# It defines a workflow that runs on manual trigger (workflow_dispatch).
+# The workflow includes steps to check out the code, set up Node.js,
+# install dependencies, and run unit tests.
 
 name: Using Actions
 
