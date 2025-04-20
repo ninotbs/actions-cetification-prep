@@ -1,3 +1,9 @@
+# This workflow demostrates the use of expressions in GitHub Actions.
+# It includes a workflow dispatch input to enable or disable debug mode.
+# It also includes conditional steps that run based on the value of the debug input and the branch from which the workflow is triggered.
+# The workflow is triggered on push events and can be manually triggered using the workflow dispatch event.
+# The workflow includes steps to print start-up data and a greeting message.
+
 name: Expressions
 run-name: Expressions | DEBUG - ${{ inputs.debug && 'ON' || 'OFF'}}
 
