@@ -8,7 +8,6 @@ name: Expressions
 run-name: Expressions | DEBUG - ${{ inputs.debug && 'ON' || 'OFF'}}
 
 on: 
-    push: {}
     workflow_dispatch:
         inputs:
             debug:
