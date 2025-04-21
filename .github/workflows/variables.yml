@@ -18,7 +18,7 @@ on:
 env:
     WORKFLOW_VAR: 'I am a workflow variable'
     OVERWRITTEN: 'I will be overwritten'
-    UNDEFINED_VAR_WITH_DEFAULT: 'default value'
+    UNDEFINED_VAR_WITH_DEFAULT: ${{ vars.UNDEFINED_VAR || 'default values'}}
 
 jobs:
     echo:
@@ -44,28 +44,28 @@ jobs:
                 echo "Step environment variables: ${{ env.OVERWRITTEN }}"
     echo2:
         runs-on: ubuntu-latest
-        env:
-            REPOSITORY_VAR: 'Default repository variable value'
+        #env:
+            #REPOSITORY_VAR: 'Default repository variable value'
         steps:
             - name: Print variables
-              env:
-                ORG_VAR: 'Default organization variable value'
+            #  env:
+             #   ORG_VAR: 'Default organization variable value'
               run: | 
                 echo "Organization variable: ${{ env.ORG_VAR }}"
-                echo "Organization overwritten variable: Variable OVERWRITTEN_VAR is not defined"
+                echo "Organization overwritten variable: ${{ vars.OVERWRITTEN_VAR }}"
                 echo "Repository variable: ${{ env.REPOSITORY_VAR }}"
     echo-prod:
         runs-on: ubuntu-latest
-        env:
-            ORG_VAR: 'Default organization variable value'
-            REPOSITORY_VAR: 'Default repository variable value'
-            TARGET_VAR: 'Defined target variable value'
-        # environment: prod
+        #env:
+          #  ORG_VAR: 'Default organization variable value'
+           # REPOSITORY_VAR: 'Default repository variable value'
+            #TARGET_VAR: 'Defined target variable value'
+        environment: prod
         steps:
             - name: Print prod variables
               run: |
                 echo "Organization variable: ${{ env.ORG_VAR }}"
-                echo "Organization overwritten variable: Variable OVERWRITTEN_VAR is not defined"
+                echo "Organization overwritten variable: ${{ vars.OVERWRITTEN_VAR }}"
                 echo "Repository variable: ${{ env.REPOSITORY_VAR }}"
                 echo "Environment variable: ${{ env.TARGET_VAR }}"
     echo-undifined:
