@@ -1,3 +1,14 @@
+# This workflow demonstrates the use of environment variables in GitHub Actions.
+# It includes examples of workflow, job, and step-level variables,
+# as well as how to overwrite variables at different levels.
+# It also shows how to use variables in different jobs and how to handle undefined variables.
+# The workflow is triggered on push and manually via workflow_dispatch.
+# The workflow includes three jobs:
+    # echo: Prints environment variables at the step level and overwrites a job variables.
+    # echo2: Prints organization and repository variables.
+    # echo-prod: Prints organization, repository, and environment variables.
+# The workflow also includes a job that prints an undefined variable with a default value.
+
 name: Variables
 
 on:
