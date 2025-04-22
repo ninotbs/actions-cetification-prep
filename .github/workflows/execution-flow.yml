@@ -1,3 +1,11 @@
+# This workflow demonstrates a complex execution flow with multiple jobs and dependencies.
+# It includes linting, building, unit tests, deployment to non-production, E2E tests,
+# load tests, and deployment to production.
+# The workflow is triggered manually and allows the user to specify whether unit tests
+# will pass or fail.
+# The workflow includes a conditional step that fails the job if the user specifies
+# that unit tests will not pass.
+
 name: Execution Flow
 
 on: 
