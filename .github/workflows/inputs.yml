@@ -1,3 +1,8 @@
+# This workflow demonstrates a complex execution flow with multiple jobs and dependencies.
+# It also includes a manual trigger with inputs for dry-run, target environment, and tag.
+# The workflow is triggered manually and requires the user to specify the target environment
+# and the tag for the build.
+
 name: Inputs
 
 on:
