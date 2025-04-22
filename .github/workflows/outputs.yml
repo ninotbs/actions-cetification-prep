@@ -1,3 +1,10 @@
+# This workflow demonstrates a complex execution flow with multiple jobs and dependencies.
+# It includes a build job that generates outputs and a deploy job that uses those outputs.
+# The deploy job is conditional based on the build job's output status.
+# The build job also includes a step that intentionally makes a mistake to show how it affects the workflow.
+# The workflow is triggered manually with a choice input for the build status.
+# The build job outputs are printed in the deploy job.
+
 name: Outputs
 
 on:
