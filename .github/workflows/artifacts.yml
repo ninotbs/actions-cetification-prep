@@ -1,3 +1,16 @@
+# This workflow is triggered manually and builds the app, runs tests, and uploads artifacts.
+# It also downloads the build artifact for further use in the deployment jobs.
+# The workflow uses caching to speed up the installation of dependencies.
+# The workflow is set to run on the latest version of Ubuntu.
+# The workflow uses Node.js version 23.x for the build process.
+# The workflow uses the actions/checkout, actions/setup-node, actions/cache, actions/upload-artifact, and actions/download-artifact actions.
+# The workflow uses the actions/upload-artifact action to upload test coverage reports and build files.
+# The workflow uses the actions/download-artifact action to download the build artifact for deployment.
+# The workflow uses the actions/cache action to cache the node_modules directory to speed up the installation of dependencies.
+# The workflow uses the actions/setup-node action to set up Node.js for the build process.
+# The workflow uses the actions/checkout action to check out the code from the repository.
+# The workflow uses the actions/upload-artifact action to upload the test coverage reports and build files as artifacts.
+
 name: Artifacts
 
 on:
