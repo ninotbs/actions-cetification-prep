@@ -6,7 +6,15 @@ on:
             use-cache:
                 description: 'Whether to execute the cache step'
                 type: boolean
-                default: false
+                default: true
+            node-version:
+                description: 'Node version to use'
+                type: choice
+                options:
+                    - '18.x'
+                    - '20.x'
+                    - '23.x'
+                default: '23.x'
 
 jobs:
     build:
@@ -20,7 +28,7 @@ jobs:
             - name: Setuup Node
               uses: actions/setup-node@v3
               with:
-                node-version: '23.x'
+                node-version: ${{ inputs.node-version }}            
             - name: Install dependencies
               run: npm ci
             - name: Testing
