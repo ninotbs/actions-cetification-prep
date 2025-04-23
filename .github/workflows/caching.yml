@@ -1,3 +1,20 @@
+# This workflow demonstrates how to use caching in GitHub Actions
+# to speed up the installation of dependencies and build process.
+# It uses the actions/cache action to cache the node_modules directory
+# and the package-lock.json file.
+# The workflow is triggered manually with the option to use cache
+# and to specify the Node.js version.
+# The workflow consists of three jobs:
+    # 1. install-deps: Installs dependencies and caches them
+    # 2. lint-test: Runs linting and testing
+    # 3. build: Builds the application
+    # The install-deps job is a prerequisite for the other two jobs.
+    # The lint-test job runs linting and testing, while the build job builds the application.
+    # The caching mechanism is used to speed up the installation of dependencies
+    # and the build process by caching the node_modules directory.
+# The workflow is designed to be reusable and can be triggered manually
+# with the option to use cache and to specify the Node.js version.
+
 name: Caching
 
 on:
