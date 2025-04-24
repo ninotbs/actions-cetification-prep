@@ -1,0 +1,121 @@
+# This workflow demonstrates how to use caching in GitHub Actions
+# to speed up the installation of dependencies and build process.
+# It uses the actions/cache action to cache the node_modules directory
+# and the package-lock.json file.
+# The workflow is triggered manually with the option to use cache
+# and to specify the Node.js version.
+# The workflow consists of three jobs:
+    # 1. install-deps: Installs dependencies and caches them
+    # 2. lint-test: Runs linting and testing
+    # 3. build: Builds the application
+    # The install-deps job is a prerequisite for the other two jobs.
+    # The lint-test job runs linting and testing, while the build job builds the application.
+    # The caching mechanism is used to speed up the installation of dependencies
+    # and the build process by caching the node_modules directory.
+# The workflow is designed to be reusable and can be triggered manually
+# with the option to use cache and to specify the Node.js version.
+
+name: Caching
+
+on:
+    workflow_dispatch:
+        inputs:
+            use-cache:
+                description: 'Whether to execute the cache step'
+                type: boolean
+                default: true
+            node-version:
+                description: 'Node version to use'
+                type: choice
+                options:
+                    - '18.x'
+                    - '20.x'
+                    - '23.x'
+                default: '23.x'
+
+jobs:
+    install-deps:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: app
+        outputs:
+            deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ inputs.node-version }}
+            - name: Calculate cache key
+              id: cache-key
+              run: |
+                  echo "CACHE_KEY=deps-node-modules-${{ hashFiles('app/package-lock.json') }}" >> "$GITHUB_OUTPUT"
+            - name: Download cached dependencies
+              uses: actions/cache@v3
+              if: ${{ inputs.use-cache }}
+              id: cache
+              with:
+                  path: app/node_modules
+                  key: ${{ steps.cache-key.outputs.CACHE_KEY }}
+            - name: Install dependencies
+              if: steps.cache.outputs.cache-hit != 'true'
+              run: npm ci
+    lint-test:
+            runs-on: ubuntu-latest
+            needs: install-deps
+            defaults:
+                run:
+                    working-directory: app
+            steps:
+                - name: Checkout code
+                  uses: actions/checkout@v4
+                - name: Setup Node
+                  uses: actions/setup-node@v4
+                  with:
+                      node-version: ${{ inputs.node-version }}
+                - name: Download cached dependencies
+                  uses: actions/cache@v3
+                  id: cache
+                  with:
+                      path: app/node_modules
+                      key: ${{ needs.install-deps.outputs.deps-cache-key }}
+                - name: Testing
+                  run: npm run test
+                - name: Linting
+                  run: echo "Linting…"
+    build:
+        runs-on: ubuntu-latest
+        needs: install-deps
+        defaults:
+            run:
+                working-directory: app
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Setuup Node
+              uses: actions/setup-node@v3
+              with:
+                node-version: ${{ inputs.node-version }}     
+            - name: Download cached dependencies
+              uses: actions/cache@v3
+              if: ${{ inputs.use-cache }}
+              id: cache
+              with:
+                path: app/node_modules
+                key: deps-node-modules-${{ hashFiles('app/package-lock.json') }}
+            - name: Building
+              run: npm run build
+
+            
+            #- name: Install dependencies
+             # if: steps.cache.outputs.cache-hit != 'true'
+              #run: npm ci
+            #- name: Testing
+             # run: npm run test
+            #- name: Building
+             # run: npm run build
+            #- name: Deploying to nonprod
+             # run: echo "Deploying to nonprod"
+              

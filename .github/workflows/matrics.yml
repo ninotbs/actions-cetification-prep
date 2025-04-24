@@ -1,0 +1,58 @@
+name: Matrices
+
+on: 
+    workflow_dispatch:
+
+jobs:
+    backwards-compatibility:
+        name: ${{ matrix.os }} - ${{ matrix.node-version }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: true
+            matrix:
+                node-version: [21.x, 22.x, 23.x]
+                os: 
+                    - ubuntu-latest
+                    - windows-latest
+                include:
+                  - os: ubuntu-latest
+                    node-version: 21.x
+                  - os: ubuntu-latest
+                    node-version: 23.x
+                    tag: experimental
+        steps:
+            - name: Setup node
+              uses: actions/setup-node@v3
+              with: 
+                node-version: ${{ matrix.node-version }}
+            - name: Perform some tests
+              run: |
+               echo "Running tests on OS ${{ matrix.os }} and Node.js ${{ matrix.node-version }}"
+            - name: Upload test results
+              run: echo "Uploading test results"
+    include-example:
+        name: ${{ matrix.color }} - ${{ matrix.shape }} - ${{ matrix.size }} - ${{ matrix.opacity }}
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                color: [red, green, blue]
+                shape: [circle, square, triangle]
+                size: [small, medium, large]
+                include:
+                    - color: yellow
+                    - opacity: 75
+                    - color: yellow
+                    - shape: circle
+                      opacity: 100
+                    - color: yellow
+                      shape: rectangle
+                    - opacity: 50
+                    - color: purple
+                      shape: circle
+                      size: medium
+                exclude:
+                    - color: purple
+                      shape: circle
+        steps:
+            - name: Dummy step
+              run: echo "Running tests on color ${{ matrix.color }}, shape ${{ matrix.shape }}, and size ${{ matrix.size }} with opacity ${{ matrix.opacity}}"

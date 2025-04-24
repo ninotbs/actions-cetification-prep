@@ -1,0 +1,76 @@
+# This workflow demonstrates the use of environment variables in GitHub Actions.
+# It includes examples of workflow, job, and step-level variables,
+# as well as how to overwrite variables at different levels.
+# It also shows how to use variables in different jobs and how to handle undefined variables.
+# The workflow is triggered on push and manually via workflow_dispatch.
+# The workflow includes three jobs:
+    # echo: Prints environment variables at the step level and overwrites a job variables.
+    # echo2: Prints organization and repository variables.
+    # echo-prod: Prints organization, repository, and environment variables.
+# The workflow also includes a job that prints an undefined variable with a default value.
+
+name: Variables
+
+on:
+    push:
+    workflow_dispatch:
+
+env:
+    WORKFLOW_VAR: 'I am a workflow variable'
+    OVERWRITTEN: 'I will be overwritten'
+    UNDEFINED_VAR_WITH_DEFAULT: 'default values'
+
+jobs:
+    echo:
+        runs-on: ubuntu-latest
+        env:
+            JOB_VAR: 'I am a job variable'
+            OVERWRITTEN: 'I have been overwritten at the job level'
+        steps:
+            - name: Print environment variables
+              env:
+                STEP_VAR: 'I am a step environment variable'
+                step_var2: 'I am another step environment variable'
+              run: |
+                echo "Step environment variables: ${{ env.STEP_VAR }}"
+                echo "Step environment variables 2: $step_var2"
+                echo "Job environment variables: ${{ env.JOB_VAR }}"
+                echo "Workflow environment variables: ${{ env.WORKFLOW_VAR }}"
+                echo "Overwritten environment variables: ${{ env.OVERWRITTEN }}"
+            - name: Overwrite job variable
+              env:
+                OVERWRITTEN: 'I have been overwritten at the step level'
+              run: |
+                echo "Step environment variables: ${{ env.OVERWRITTEN }}"
+    echo2:
+        runs-on: ubuntu-latest
+        env:
+            ORG_VAR: 'Default organization variable value'
+            REPOSITORY_VAR: 'Default repository variable value'
+            OVERWRITTEN_VAR: 'Default overwritten variable value'
+        steps:
+            - name: Print variables
+              run: | 
+                echo "Organization variable: ${{ env.ORG_VAR }}"
+                echo "Organization overwritten variable: ${{ env.OVERWRITTEN_VAR }}"
+                echo "Repository variable: ${{ env.REPOSITORY_VAR }}"
+    echo-prod:
+        runs-on: ubuntu-latest
+        env:
+            ORG_VAR: 'Default organization variable value'
+            REPOSITORY_VAR: 'Default repository variable value'
+            TARGET_VAR: 'Defined target variable value'
+        environment: prod
+        steps:
+            - name: Print prod variables
+              run: |
+                echo "Organization variable: ${{ env.ORG_VAR }}"
+                echo "Organization overwritten variable: ${{ vars.OVERWRITTEN_VAR }}"
+                echo "Repository variable: ${{ env.REPOSITORY_VAR }}"
+                echo "Environment variable: ${{ env.TARGET_VAR }}"
+    echo-undifined:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print undefined variable
+              run: |
+                echo "Orgainization variable: ${{ env.UNDEFINED_VAR_WITH_DEFAULT }}"

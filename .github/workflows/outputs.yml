@@ -1,0 +1,50 @@
+# This workflow demonstrates a complex execution flow with multiple jobs and dependencies.
+# It includes a build job that generates outputs and a deploy job that uses those outputs.
+# The deploy job is conditional based on the build job's output status.
+# The build job also includes a step that intentionally makes a mistake to show how it affects the workflow.
+# The workflow is triggered manually with a choice input for the build status.
+# The build job outputs are printed in the deploy job.
+
+name: Outputs
+
+on:
+    workflow_dispatch:
+        inputs:
+            build-status:
+                type: choice
+                options:
+                    - success
+                    - failure
+                default: success
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        outputs:
+            build-status: ${{ steps.build.outputs.status }}
+            output1: ${{ steps.build.outputs.output1 }}
+        steps:
+            - name: Print GITHUB_OUTPUT path
+              run: echo "$GITHUB_OUTPUT"
+            - name: Build
+              id: build
+              run: |
+                echo "$GITHUB_OUTPUT"
+                echo "stauts=${{ inputs.build-status }}" >> "$GITHUB_OUTPUT"
+                echo "output1=value1" >> "$GITHUB_OUTPUT"
+                echo "output2=value2" >> "$GITHUB_OUTPUT"
+                cat "$GITHUB_OUTPUT"
+            - name: Step with mistake
+              run: |
+                echo "mistake=true" > "$GITHUB_OUTPUT"
+                cat "$GITHUB_OUTPUT"
+    deploy:
+        runs-on: ubuntu-latest
+        needs: build
+        if: ${{ needs.build.outputs.build-status == 'success' }}
+        steps:
+            - name: Deploy
+              run: echo "Deploying…"
+            - name: Print Outputs
+              run: |
+                echo "Output 1: ${{ needs.build.outputs.output1 }}"
