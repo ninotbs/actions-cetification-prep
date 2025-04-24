@@ -45,4 +45,6 @@ jobs:
                 include:
                     - color: yellow
                       shape: rectangle
-                
+        steps:
+            - name: Dummy step
+              run: echo "Running tests on color ${{ matrix.color }}, shape ${{ matrix.shape }}, and size ${{ matrix.size }}"
