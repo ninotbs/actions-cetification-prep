@@ -45,6 +45,9 @@ jobs:
                 include:
                     - opacity: 50
                     - color: yellow
+                    - shape: circle
+                      opacity: 100
+                    - color: yellow
                       shape: rectangle
         steps:
             - name: Dummy step
